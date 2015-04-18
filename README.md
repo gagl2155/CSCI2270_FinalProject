@@ -9,16 +9,19 @@ Run the excecutable - requires movie data
     ./FinalProject inputfile.txt
 
 Movie file format:
+
     Inception,2010,Christopher Nolan
     The Departed,2006,Martin Scorsese
 
 The menu:
-============== Menu ==============
-1. Set table size   (accepts a number 5-n)
-2. Set data percent (accepts a number 1-100)
-3. Run tests
+
+    ============== Menu ==============
+    1. Set table size   (accepts a number 5-n)
+    2. Set data percent (accepts a number 1-100)
+    3. Run tests
 
 Run tests:
+
     "Algoirthm 1": n collisions, 87% of table used, average of 2 movie(s) at index
     "Algoirthm 2": n collisions, 92% of table used, average of 2 movie(s) at index
     "Algoirthm 3": n collisions, 99% of table used, average of 1 movie(s) at index
