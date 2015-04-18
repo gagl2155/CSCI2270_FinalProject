@@ -4,7 +4,7 @@
 This project will be a continuation of the hash table assignment. Like the assignment, this program will use Movie structs as data that needs to be stored in a hash table. The program will accept an input file with a list of movie titles, and other data about the movie. Next, it will construct a hash table in a similar way to the assignment. The goal of the project is to compare various hashing algorithms and hash table sizes. Two or three hashing algorithms will be implemented and for each of them, it will construct a hash table with the data from the file. The comparisons will be based on how the algorithm performs with different amounts of data and table sizes. The number of collisions in the hash table will be a helpful indication of the performance of the hashing algorithm. The user will input what percent of the data should be used and what the table sizes should be and the program will then report on the number of collisions for each algorithm.
 
 # How to Run
-Run the excecutable - requires movie data\n
+Run the excecutable - requires movie data#
     ./FinalProject inputfile.txt
 
 Movie file format:
