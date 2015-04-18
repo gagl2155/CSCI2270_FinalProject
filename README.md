@@ -22,9 +22,9 @@ The menu:
 
 Run tests:
 
-    "Algoirthm 1": n collisions, 87% of table used, average of 2 movie(s) at index
-    "Algoirthm 2": n collisions, 92% of table used, average of 2 movie(s) at index
-    "Algoirthm 3": n collisions, 99% of table used, average of 1 movie(s) at index
+    "Algoirthm 1": 20 collisions, 87% of table used, average of 2 movie(s) at index
+    "Algoirthm 2": 15 collisions, 92% of table used, average of 2 movie(s) at index
+    "Algoirthm 3": 5 collisions, 99% of table used, average of 1 movie(s) at index
     
 # Dependencies
 No dependencies
