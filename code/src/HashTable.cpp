@@ -1,15 +1,12 @@
 #include "HashTable.h"
 
-bool compareByMovie (const Movie& lhs, const Movie& rhs) {
-    return lhs.title < rhs.title;
-}
-
 HashTable::HashTable(std::string name)
 {
     //ctor
     fileName = name;
     tableSize = 30;
     dataPercentage = 100;
+    fileError = false;
 }
 
 HashTable::~HashTable()
@@ -43,6 +40,18 @@ int HashTable::elfHash (std::string inStr) {
     return hashValue % tableSize;
 }
 
+int HashTable::factoryHash (std::string hashType, std::string inStr) {
+    if (hashType == "elf") {
+        return elfHash(inStr);
+    }
+    else if (hashType == "sum") {
+        return sumHash(inStr);
+    }
+    else {
+        return simpleHash(inStr);
+    }
+}
+
 std::string HashTable::getStr (std::string strMsg) {
     if (strMsg != "")
         std::cout << strMsg << std::endl;
@@ -60,7 +69,7 @@ double HashTable::getDouble (std::string strMsg) {
 }
 
 int HashTable::mainMenu () {
-    std::cout << "======Main Menu======" << std::endl;
+    std::cout << "=======================================================================" << std::endl;
 	std::cout << "1. Set table size" << std::endl;
 	std::cout << "2. Set data percent" << std::endl;
 	std::cout << "3. Run tests" << std::endl;
@@ -75,7 +84,7 @@ void HashTable::clearTable () {
     }
 }
 
-void HashTable::testHash (std::string hashType) {
+Result HashTable::testHash (std::string hashType) {
     clearTable();
     int collisions = 0
     , index
@@ -83,18 +92,11 @@ void HashTable::testHash (std::string hashType) {
     , indexesUsed = 0;
 
     for (int i = 0; i < sampleSize; i++) {
-        if (hashType == "simple")
-            index = simpleHash(movieVector[i].title);
-        else if (hashType == "elf")
-            index = elfHash(movieVector[i].title);
-        else
-            index = sumHash(movieVector[i].title);
-
+        index = factoryHash(hashType, movieVector[i].title);
         if (index > -1 && index < tableSize) {
             if (hashVector[index].size() > 0)
                 collisions++;
             hashVector[index].push_back(movieVector[i]);
-            // std::sort(hashVector[index].begin(), hashVector[index].end(), compareByMovie);
         }
     }
 
@@ -102,7 +104,7 @@ void HashTable::testHash (std::string hashType) {
         if (hashVector[j].size() > 0) indexesUsed++;
     }
 
-    std::cout << "Algorithm \""
+    std::cout << "\tAlgorithm \""
     << hashType
     << "\": "
     << collisions
@@ -110,10 +112,14 @@ void HashTable::testHash (std::string hashType) {
     << indexesUsed
     << "/"
     << tableSize
-    << " indexes used in table ("
-    << int(dataPercentage)
-    << "% of data)"
+    << " indexes used"
     << std::endl;
+
+    return Result(
+        hashType
+        , double(collisions) / double(movieVector.size())
+        , double(indexesUsed) / double(tableSize)
+    );
 }
 
 void HashTable::runTests () {
@@ -122,18 +128,23 @@ void HashTable::runTests () {
         dataPercentage = 100;
     if (tableSize == 0 || tableSize > 300)
         tableSize = 20;
-    std::cout << "-------------------------------------------------------------" << std::endl;
-    std::cout << "Total movies: " << movieVector.size() << std::endl;
-    std::cout << "Table size: " << tableSize << std::endl;
-    std::cout << "Sample size percent: " << int(dataPercentage) << std::endl;
-    std::cout << "-------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "\tTotal # movies: " << movieVector.size() << std::endl;
+    std::cout << "\tTable size: " << tableSize << std::endl;
+    std::cout << "\tSample size percent: " << int(dataPercentage) << std::endl;
+    std::cout << std::endl;
 
-    // Simple hash
-    testHash("simple");
-    // Elf hash
-    testHash("elf");
-    // Sum hash
-    testHash("sum");
+    std::string algs[3] = {"simple", "elf", "sum"};
+    Result best, rtn;
+    for (int i = 0; i < 3; i++) {
+        rtn = testHash(algs[i]);
+        if (i == 0 || rtn.overallScore > best.overallScore) {
+            best = rtn;
+        }
+    }
+    std::cout << std::endl;
+    std::cout << "\tBest algorithm: " << best.algName << std::endl; //  << ", score: " << best.overallScore
+    std::cout << std::endl;
 }
 
 void HashTable::readData() {
@@ -142,7 +153,8 @@ void HashTable::readData() {
     dataFile.open(fileName.c_str());
 
     if (dataFile.fail()) {
-        std::cout << "ERROR" << std::endl;
+        std::cout << "FILE ERROR" << std::endl;
+        fileError = true;
     }
     else {
         int lineIx = 0, year;
@@ -166,18 +178,20 @@ void HashTable::readData() {
 
 void HashTable::run() {
     readData();
-    int opt;
-    while ((opt = int(mainMenu())) != 4) {
-        switch (opt) {
-            case 1:
-                tableSize = int(getDouble("Number: "));
-                break;
-            case 2:
-                dataPercentage = getDouble("Percent: ");
-                break;
-            case 3:
-                runTests();
-                break;
+    if (!fileError) {
+        int opt;
+        while ((opt = int(mainMenu())) != 4) {
+            switch (opt) {
+                case 1:
+                    tableSize = int(getDouble("Number: "));
+                    break;
+                case 2:
+                    dataPercentage = getDouble("Percent: ");
+                    break;
+                case 3:
+                    runTests();
+                    break;
+            }
         }
     }
     std::cout << "Goodbye!" << std::endl;
