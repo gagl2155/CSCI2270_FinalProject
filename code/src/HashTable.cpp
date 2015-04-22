@@ -117,7 +117,7 @@ Result HashTable::testHash (std::string hashType) {
 
     return Result(
         hashType
-        , double(collisions) / double(movieVector.size())
+        , double(collisions) / double(sampleSize)
         , double(indexesUsed) / double(tableSize)
     );
 }
@@ -143,7 +143,7 @@ void HashTable::runTests () {
         }
     }
     std::cout << std::endl;
-    std::cout << "\tBest algorithm: " << best.algName << std::endl; //  << ", score: " << best.overallScore
+    std::cout << "\tBest algorithm: " << best.algName << std::endl;
     std::cout << std::endl;
 }
 
