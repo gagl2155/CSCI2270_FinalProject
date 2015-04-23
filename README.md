@@ -10,8 +10,8 @@ Run the excecutable - requires movie data
 
 Movie file format:
 
-    Inception,2010,Christopher Nolan
-    The Departed,2006,Martin Scorsese
+    Inception,2010
+    The Departed,2006
 
 The menu:
 
@@ -22,9 +22,13 @@ The menu:
 
 Run tests:
 
-    "Algoirthm 1": 20 collisions, 87% of table used, average of 2 movie(s) at index
-    "Algoirthm 2": 15 collisions, 92% of table used, average of 2 movie(s) at index
-    "Algoirthm 3": 5 collisions, 99% of table used, average of 1 movie(s) at index
+    Total # movies: 50
+    Table size: 30
+    Sample size percent: 100
+    Algorithm "simple": 25 collision(s), 25/30 indexes used
+    Algorithm "elf": 22 collision(s), 28/30 indexes used
+    Algorithm "sum": 28 collision(s), 22/30 indexes used
+    Best algorithm: elf
     
 # Dependencies
 No dependencies
@@ -33,4 +37,6 @@ No dependencies
 Running Ubuntu (64 bit) through VirtualBox
 
 # Group Members
+Garrett Glissmann, Adam Ephraim Parnes
+    
 # Contributors
