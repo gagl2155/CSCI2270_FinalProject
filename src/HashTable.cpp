@@ -1,5 +1,18 @@
 #include "HashTable.h"
 
+/**
+ * Function prototype:
+ * HashTable::HashTable(std::string);
+ *
+ * Function description:
+ * Constructor of HashTable. Accepts the string name of the file to read, and initializes other class variables.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ *
+ * Pre-conditions: valid file name string
+ * Post-conditions: tableSize and dataPercentage defaulted, fileError and fileName set
+ */
 HashTable::HashTable(std::string name)
 {
     //ctor
@@ -18,7 +31,21 @@ HashTable::~HashTable()
     //dtor
 }
 
-// Hashing function - given string returns an index
+/**
+ * Function prototype:
+ * int HashTable::sumHash(std::string);
+ *
+ * Function description:
+ * Performs a hash of a string based off summing the ascii values of the string.
+ * Returns the sum % the size of the table (an integer).
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int i = ht.sumHash("string");
+ *
+ * Pre-conditions: valid input string, string not empty, tableSize > 0
+ * Post-conditions: returns index >= 0
+ */
 int HashTable::sumHash(std::string inStr) {
     int sum = 0;
     for (int i = 0; i < inStr.length(); i++) {
@@ -27,11 +54,40 @@ int HashTable::sumHash(std::string inStr) {
     return sum % tableSize;
 }
 
-// Hashing function - given string returns an index
+/**
+ * Function prototype:
+ * int HashTable::simpleHash(std::string);
+ *
+ * Function description:
+ * Performs a basic hashing of a string, based off the length of the string.
+ * Returns the length % the size of the table (an integer).
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int i = ht.simpleHash("string");
+ *
+ * Pre-conditions: valid input string, string not empty, tableSize > 0
+ * Post-conditions: returns index >= 0
+ */
 int HashTable::simpleHash(std::string inStr) {
     return inStr.length() % tableSize;
 }
 
+/**
+ * Function prototype:
+ * int HashTable::elfHash(std::string);
+ *
+ * Function description:
+ * Performs a more complex hashing algorithm.
+ * See: http://courses.cs.vt.edu/~cs3114/Summer11/Notes/T16.HashFunctions.pdf .
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int i = ht.elfHash("string");
+ *
+ * Pre-conditions: valid input string, string not empty, tableSize > 0
+ * Post-conditions: returns index >= 0
+ */
 int HashTable::elfHash (std::string inStr) {
     int hashValue = 0;
     for (int pos = 0; pos < inStr.length(); pos++) {
@@ -44,6 +100,21 @@ int HashTable::elfHash (std::string inStr) {
     return hashValue % tableSize;
 }
 
+/**
+ * Function prototype:
+ * int HashTable::multiHash(std::string);
+ *
+ * Function description:
+ * Hashes a string by summing the ascii values of the string, and multiplying it some constant (in [0, 1]).
+ * The fractional part is multiplyed by some number (a power of 2) and returns that to be used as an index.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int i = ht.multiHash("string");
+ *
+ * Pre-conditions: valid input string, string not empty, tableSize > 0
+ * Post-conditions: returns index >= 0
+ */
 int HashTable::multiHash (std::string inStr) {
     double sum = 0, dbl, rem;
     for (int i = 0; i < inStr.length(); i++) {
@@ -55,6 +126,22 @@ int HashTable::multiHash (std::string inStr) {
     return int(rem);
 }
 
+/**
+ * Function prototype:
+ * int HashTable::factoryHash(std::string, std::string)
+ *
+ * Function description:
+ * Acts as an interface to call the 3 hashing methods: simple, sum, and elf.
+ * Pass the method which one is wanted as well as the string to hash (defaults to simple hash).
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int i = ht.factoryHash("elf", "string");
+ *
+ *
+ * Pre-conditions: not empty string to hash, hash type defaults to simple
+ * Post-conditions: returns index >= 0
+ */
 int HashTable::factoryHash (std::string hashType, std::string inStr) {
     if (hashType == "elf") {
         return elfHash(inStr);
@@ -70,6 +157,20 @@ int HashTable::factoryHash (std::string hashType, std::string inStr) {
     }
 }
 
+/**
+ * Function prototype:
+ * std::string HashTable::getStr(std::string)
+ *
+ * Function description:
+ * Prints a message to the console, requesting input. Reads in a string input from cin and returns it.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * std::string str = ht.getStr("Input:");
+ *
+ * Pre-conditions: none
+ * Post-conditions: returns a string
+ */
 std::string HashTable::getStr (std::string strMsg) {
     if (strMsg != "")
         std::cout << strMsg << std::endl;
@@ -78,6 +179,20 @@ std::string HashTable::getStr (std::string strMsg) {
 	return input;
 }
 
+/**
+ * Function prototype:
+ * double HashTable::getDouble(std::string)
+ *
+ * Function description:
+ * Prints a message to the console, requesting input. Reads in a double input from cin and returns it.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * double dbl = ht.getDouble("Input:");
+ *
+ * Pre-conditions: none
+ * Post-conditions: returns a double
+ */
 double HashTable::getDouble (std::string strMsg) {
     if (strMsg != "")
         std::cout << strMsg << std::endl;
@@ -86,6 +201,20 @@ double HashTable::getDouble (std::string strMsg) {
 	return atof(input.c_str());
 }
 
+/**
+ * Function prototype:
+ * int HashTable::mainMenu();
+ *
+ * Function description:
+ * Prints out the main menu of the program. Returns the choice the user picks.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int choice = ht.mainMenu();
+ *
+ * Pre-conditions: none
+ * Post-conditions: returns an integer
+ */
 int HashTable::mainMenu () {
     std::cout << "=======================================================================" << std::endl;
 	std::cout << "1. Set table size" << std::endl;
@@ -95,6 +224,20 @@ int HashTable::mainMenu () {
 	return getDouble("");
 }
 
+/**
+ * Function prototype:
+ * void HashTable::clearTable();
+ *
+ * Function description:
+ * Clears the hashTable vector and reinitializes each with Movie vectors. Called before starting a new test.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * ht.clearTable();
+ *
+ * Pre-conditions: none
+ * Post-conditions: returns nothing, vector is cleared
+ */
 void HashTable::clearTable () {
     hashVector.clear();
     for (int i = 0; i < tableSize; i++) {
@@ -102,6 +245,22 @@ void HashTable::clearTable () {
     }
 }
 
+/**
+ * Function prototype:
+ * Result HashTable::testHash(std::string);
+ *
+ * Function description:
+ * Performs the actual test of a particular algorithm. First clears the hash table to start from the beginning.
+ * Then it loops through the data sample, gets the index that it should insert the data at using factoryHash, and
+ * puts the movie at that spot. Also counts the number of collisions and indexes used in the table.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * Result rtn = ht.testHash("elf");
+ *
+ * Pre-conditions: a string with a valid algorithm to test
+ * Post-conditions: returns a Result struct with test results
+ */
 Result HashTable::testHash (std::string hashType) {
     clearTable();
     int collisions = 0
@@ -140,6 +299,21 @@ Result HashTable::testHash (std::string hashType) {
     );
 }
 
+/**
+ * Function prototype:
+ * void HashTable::runTests();
+ *
+ * Function description:
+ * Validates the sample size and table size before looping through each algorithm and running the test on it.
+ * Decides which of the algorithms performed the best, based off the Result struct.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * ht.runTests();
+ *
+ * Pre-conditions: fileError is false, movieVector has data
+ * Post-conditions: notifies user of results
+ */
 void HashTable::runTests () {
     // Validate limits
     if (dataPercentage < 1 || dataPercentage > 100)
@@ -165,6 +339,21 @@ void HashTable::runTests () {
     std::cout << std::endl;
 }
 
+/**
+ * Function prototype:
+ * void HashTable::readData();
+ *
+ * Function description:
+ * Opens the TXT file and reads in the movie data, setting the movieVector property. Sets fileError to true if
+ * it can't open the file resource.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * ht.readData();
+ *
+ * Pre-conditions: the file passed to the program exists and is readable
+ * Post-conditions: movieVector contains the movie data
+ */
 void HashTable::readData() {
     std::string lineStr;
     std::ifstream dataFile;
@@ -194,6 +383,21 @@ void HashTable::readData() {
     }
 }
 
+/**
+ * Function prototype:
+ * HashTable::run();
+ *
+ * Function description:
+ * Starts the class operations. First reads in the data from the file resource, and, if there was no error, prompts
+ * user for what to do next to run the tests.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * ht.run();
+ *
+ * Pre-conditions: valid file resource
+ * Post-conditions: handles user prompts
+ */
 void HashTable::run() {
     readData();
     if (!fileError) {
