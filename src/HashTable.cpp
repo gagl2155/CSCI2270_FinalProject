@@ -7,6 +7,10 @@ HashTable::HashTable(std::string name)
     tableSize = 30;
     dataPercentage = 100;
     fileError = false;
+
+    int power = int(log2(double(tableSize)));
+    multiMConstant = pow(2, power);
+    multiAConstant = 13.0 / 32.0;
 }
 
 HashTable::~HashTable()
@@ -40,12 +44,26 @@ int HashTable::elfHash (std::string inStr) {
     return hashValue % tableSize;
 }
 
+int HashTable::multiHash (std::string inStr) {
+    double sum = 0, dbl, rem;
+    for (int i = 0; i < inStr.length(); i++) {
+        sum += double(inStr.at(i));
+    }
+    dbl = sum * multiAConstant;
+    rem = dbl - double(int(dbl));
+    rem *= multiMConstant;
+    return int(rem);
+}
+
 int HashTable::factoryHash (std::string hashType, std::string inStr) {
     if (hashType == "elf") {
         return elfHash(inStr);
     }
     else if (hashType == "sum") {
         return sumHash(inStr);
+    }
+    else if (hashType == "multiplication") {
+        return multiHash(inStr);
     }
     else {
         return simpleHash(inStr);
@@ -71,7 +89,7 @@ double HashTable::getDouble (std::string strMsg) {
 int HashTable::mainMenu () {
     std::cout << "=======================================================================" << std::endl;
 	std::cout << "1. Set table size" << std::endl;
-	std::cout << "2. Set data percent" << std::endl;
+	std::cout << "2. Set sample size" << std::endl;
 	std::cout << "3. Run tests" << std::endl;
 	std::cout << "4. Quit" << std::endl;
 	return getDouble("");
@@ -134,9 +152,9 @@ void HashTable::runTests () {
     std::cout << "\tSample size percent: " << int(dataPercentage) << std::endl;
     std::cout << std::endl;
 
-    std::string algs[3] = {"simple", "elf", "sum"};
+    std::string algs[4] = {"simple", "elf", "sum", "multiplication"};
     Result best, rtn;
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         rtn = testHash(algs[i]);
         if (i == 0 || rtn.overallScore > best.overallScore) {
             best = rtn;
@@ -183,7 +201,7 @@ void HashTable::run() {
         while ((opt = int(mainMenu())) != 4) {
             switch (opt) {
                 case 1:
-                    tableSize = int(getDouble("Number: "));
+                    tableSize = int(getDouble("Integer: "));
                     break;
                 case 2:
                     dataPercentage = getDouble("Percent: ");

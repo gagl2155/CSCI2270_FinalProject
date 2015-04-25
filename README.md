@@ -5,8 +5,9 @@ This project will be a continuation of the hash table assignment. Like the assig
 
 # How to Run
 For CodeBlocks, create a new C++ console application and paste the code from file FinalProject.cpp into main.cpp. Then include the HashTable header and cpp file.
-Run the executable from bin/Debug like:
+Or create an executable,
 
+    g++ -o FinalProject FinalProject.cpp HashTable.cpp
     ./FinalProject Movies.txt
 
 Movie file format:

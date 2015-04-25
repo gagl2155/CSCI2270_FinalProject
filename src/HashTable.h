@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
+#include <math.h>
 
 /**
  * Result struct
@@ -95,7 +96,7 @@ class HashTable
          * Constructor of HashTable. Accepts the string name of the file to read, and initializes other class variables.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          *
          * Pre-conditions: valid file name string
          * Post-conditions: tableSize and dataPercentage defaulted, fileError and fileName set
@@ -112,7 +113,7 @@ class HashTable
          * user for what to do next to run the tests.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * ht.run();
          *
          * Pre-conditions: valid file resource
@@ -123,6 +124,8 @@ class HashTable
     private:
         std::vector< std::vector<Movie> > hashVector;
         int tableSize;
+        int multiMConstant;
+        double multiAConstant;
         double dataPercentage;
         bool fileError;
         std::string fileName;
@@ -137,13 +140,30 @@ class HashTable
          * Returns the length % the size of the table (an integer).
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * int i = ht.simpleHash("string");
          *
          * Pre-conditions: valid input string, string not empty, tableSize > 0
          * Post-conditions: returns index >= 0
          */
         int simpleHash(std::string);
+
+        /**
+         * Function prototype:
+         * int HashTable::multiHash(std::string);
+         *
+         * Function description:
+         * Hashes a string by summing the ascii values of the string, and multiplying it some constant (in [0, 1]).
+         * The fractional part is multiplyed by some number (a power of 2) and returns that to be used as an index.
+         *
+         * Example:
+         * HashTable ht ("Movies.txt");
+         * int i = ht.multiHash("string");
+         *
+         * Pre-conditions: valid input string, string not empty, tableSize > 0
+         * Post-conditions: returns index >= 0
+         */
+        int multiHash(std::string);
 
         /**
          * Function prototype:
@@ -154,7 +174,7 @@ class HashTable
          * Returns the sum % the size of the table (an integer).
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * int i = ht.sumHash("string");
          *
          * Pre-conditions: valid input string, string not empty, tableSize > 0
@@ -171,7 +191,7 @@ class HashTable
          * See: http://courses.cs.vt.edu/~cs3114/Summer11/Notes/T16.HashFunctions.pdf .
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * int i = ht.elfHash("string");
          *
          * Pre-conditions: valid input string, string not empty, tableSize > 0
@@ -188,7 +208,7 @@ class HashTable
          * Pass the method which one is wanted as well as the string to hash (defaults to simple hash).
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * int i = ht.factoryHash("elf", "string");
          *
          *
@@ -205,7 +225,7 @@ class HashTable
          * Prints a message to the console, requesting input. Reads in a string input from cin and returns it.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * std::string str = ht.getStr("Input:");
          *
          * Pre-conditions: none
@@ -221,7 +241,7 @@ class HashTable
          * Prints a message to the console, requesting input. Reads in a double input from cin and returns it.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * double dbl = ht.getDouble("Input:");
          *
          * Pre-conditions: none
@@ -239,7 +259,7 @@ class HashTable
          * puts the movie at that spot. Also counts the number of collisions and indexes used in the table.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * Result rtn = ht.testHash("elf");
          *
          * Pre-conditions: a string with a valid algorithm to test
@@ -255,7 +275,7 @@ class HashTable
          * Prints out the main menu of the program. Returns the choice the user picks.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * int choice = ht.mainMenu();
          *
          * Pre-conditions: none
@@ -271,7 +291,7 @@ class HashTable
          * Clears the hashTable vector and reinitializes each with Movie vectors. Called before starting a new test.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * ht.clearTable();
          *
          * Pre-conditions: none
@@ -288,7 +308,7 @@ class HashTable
          * Decides which of the algorithms performed the best, based off the Result struct.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * ht.runTests();
          *
          * Pre-conditions: fileError is false, movieVector has data
@@ -305,7 +325,7 @@ class HashTable
          * it can't open the file resource.
          *
          * Example:
-         * HashTable ht ("file.txt");
+         * HashTable ht ("Movies.txt");
          * ht.readData();
          *
          * Pre-conditions: the file passed to the program exists and is readable
