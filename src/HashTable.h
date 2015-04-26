@@ -88,12 +88,22 @@ struct Movie{
 class HashTable
 {
     public:
-        
         HashTable(std::string);
         ~HashTable();
+        int simpleHash(std::string);
+        int multiHash(std::string);
+        int sumHash(std::string);
+        int elfHash(std::string);
+        int factoryHash (std::string, std::string);
+        std::string getStr(std::string);
+        double getDouble(std::string);
+        Result testHash(std::string);
+        int mainMenu();
+        void clearTable();
+        void runTests();
+        void readData();
         // Start the class
         void run();
-
     protected:
     private:
         // Stores the actual hash table
@@ -111,20 +121,6 @@ class HashTable
         std::string fileName;
         // Cached movie list
         std::vector<Movie> movieVector;
-
-        
-        int simpleHash(std::string);
-        int multiHash(std::string);
-        int sumHash(std::string);
-        int elfHash(std::string);
-        int factoryHash (std::string, std::string);
-        std::string getStr(std::string);
-        double getDouble(std::string);
-        Result testHash(std::string);
-        int mainMenu();
-        void clearTable();
-        void runTests();
-        void readData();
 };
 
 #endif // HASHTABLE_H
