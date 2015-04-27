@@ -35,6 +35,12 @@ Run tests:
 
     Best algorithm: elf
     
+# Todo
+1) Validate inputs from menu
+2) Validate movie text file for bad data
+3) Detect average space between used indexes
+4) Output ascii range for all titles: min - 250, max - 1000
+
 # Dependencies
 No dependencies
 
