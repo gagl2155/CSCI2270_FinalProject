@@ -41,7 +41,7 @@ Run tests:
     4) Output ascii range for all titles: min - 250, max - 1000
 
 # Dependencies
-No dependencies
+No third-party dependencies
 
 # System Requirements
 Running Ubuntu (64 bit) through VirtualBox
