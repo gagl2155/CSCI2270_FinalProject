@@ -27,19 +27,18 @@ Run tests:
     Total # movies: 50
     Table size: 30
     Sample size percent: 100
-
     Algorithm "simple": 25 collision(s), 25/30 indexes used
     Algorithm "elf": 22 collision(s), 28/30 indexes used
     Algorithm "sum": 28 collision(s), 22/30 indexes used
     Algorithm "multiplication": 37 collision(s), 13/30 indexes used
-
     Best algorithm: elf
     
 # Todo
-1) Validate inputs from menu
-2) Validate movie text file for bad data
-3) Detect average space between used indexes
-4) Output ascii range for all titles: min - 250, max - 1000
+
+    1) Validate inputs from menu
+    2) Validate bad input from movie text file
+    3) Detect average space between used indexes
+    4) Output ascii range for all titles: min - 250, max - 1000
 
 # Dependencies
 No dependencies
