@@ -88,6 +88,7 @@ struct Movie{
 class HashTable
 {
     public:
+        // See HashTable.cpp for method-specific documentation
         HashTable(std::string);
         ~HashTable();
         int simpleHash(std::string);
