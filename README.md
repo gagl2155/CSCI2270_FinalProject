@@ -33,7 +33,7 @@ Run tests:
     Algorithm "multiplication": 37 collision(s), 13/30 indexes used
     Best algorithm: elf
     
-# Todo
+# Future Todos
 
     1) Validate inputs from menu
     2) Validate bad input from movie text file
