@@ -47,6 +47,6 @@ No third-party dependencies
 Running Ubuntu (64 bit) through VirtualBox
 
 # Group Members
-Garrett Glissmann, Adam Ephraim Parnes
+Garrett Glissmann
     
 # Contributors
