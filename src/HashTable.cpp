@@ -376,7 +376,16 @@ void HashTable::readData() {
             firstComma = lineStr.find(",");
             title = lineStr.substr(0, firstComma);
             year = atoi( lineStr.substr(firstComma + 1, lineStr.length()).c_str() );
-
+            if(year == 0)
+            {
+                std::cout << "FILE ERROR. Please check your commas" << std::endl;
+                fileError = true;
+            }
+            else if(title == "")
+            {
+                std::cout << "FILE ERROR. Please check your commas" << std::endl;
+                fileError = true;
+            }
             Movie newMov (title, year);
             movieVector.push_back(newMov);
         }
