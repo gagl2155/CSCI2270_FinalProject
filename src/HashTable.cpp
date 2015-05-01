@@ -20,10 +20,8 @@ HashTable::HashTable(std::string name)
     tableSize = 30;
     dataPercentage = 100;
     fileError = false;
-
-    int power = int(log2(double(tableSize)));
-    multiMConstant = pow(2, power);
     multiAConstant = 13.0 / 32.0;
+    multiMConstant = 1;
 }
 
 HashTable::~HashTable()
@@ -318,8 +316,13 @@ void HashTable::runTests () {
     // Validate limits
     if (dataPercentage < 1 || dataPercentage > 100)
         dataPercentage = 100;
-    if (tableSize == 0 || tableSize > 300)
+    if (tableSize < 1 || tableSize > 300)
         tableSize = 20;
+
+    // Update power constant for the multiplication hashing
+    int power = int(log2(double(tableSize)));
+    multiMConstant = pow(2, power);
+
     std::cout << std::endl;
     std::cout << "\tTotal # movies: " << movieVector.size() << std::endl;
     std::cout << "\tTable size: " << tableSize << std::endl;
