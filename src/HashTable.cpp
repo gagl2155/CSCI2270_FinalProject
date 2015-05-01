@@ -355,18 +355,17 @@ void HashTable::runTests () {
  * Post-conditions: movieVector contains the movie data
  */
 void HashTable::readData() {
-    std::string lineStr;
     std::ifstream dataFile;
     dataFile.open(fileName.c_str());
 
     if (dataFile.fail()) {
-        std::cout << "FILE ERROR" << std::endl;
+        std::cout << "FILE ERROR. Could not open file" << std::endl;
         fileError = true;
     }
     else {
         int lineIx = 0, year;
         size_t firstComma;
-        std::string title;
+        std::string title, lineStr;
 
         while (!dataFile.eof()) {
             getline(dataFile, lineStr);
