@@ -95,6 +95,7 @@ class HashTable
         int multiHash(std::string);
         int sumHash(std::string);
         int elfHash(std::string);
+        int cryptoHash(std::string);
         int factoryHash (std::string, std::string);
         std::string getStr(std::string);
         double getDouble(std::string);

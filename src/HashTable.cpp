@@ -100,6 +100,34 @@ int HashTable::elfHash (std::string inStr) {
 
 /**
  * Function prototype:
+ * int HashTable::cryptoHash(std::string);
+ *
+ * Function description:
+ * Performs a multiple stage hashing algorithm designed for large hash tables.
+ * This combines other algorithms already defined.
+ * Can create a high spread while making it impossible to find the key from the output.
+ *
+ * Example:
+ * HashTable ht ("Movies.txt");
+ * int i = ht.cryptoHash("string");
+ *
+ * Pre-conditions: valid input string, string not empty, tableSize > 0
+ * Post-conditions: returns index >= 0
+ */
+int HashTable::cryptoHash (std::string inStr) {
+    int hashValue = sumHash(inStr);
+    for (int pos = 0; pos < inStr.length(); pos++) {
+        hashValue = (hashValue << 4) + inStr.at(pos);
+        int hiBits = hashValue & 0xF0000000;
+        if (hiBits != 0)
+            hashValue ^= hashValue >> 24;
+        hashValue &= ~hiBits;
+    }
+    return hashValue % tableSize;
+}
+
+/**
+ * Function prototype:
  * int HashTable::multiHash(std::string);
  *
  * Function description:
@@ -129,7 +157,7 @@ int HashTable::multiHash (std::string inStr) {
  * int HashTable::factoryHash(std::string, std::string)
  *
  * Function description:
- * Acts as an interface to call the 3 hashing methods: simple, sum, and elf.
+ * Acts as an interface to call the 5 hashing methods: simple, sum, elf, multiplication and crypto.
  * Pass the method which one is wanted as well as the string to hash (defaults to simple hash).
  *
  * Example:
@@ -149,6 +177,9 @@ int HashTable::factoryHash (std::string hashType, std::string inStr) {
     }
     else if (hashType == "multiplication") {
         return multiHash(inStr);
+    }
+    else if (hashType == "crypto") {
+        return cryptoHash(inStr);
     }
     else {
         return simpleHash(inStr);
@@ -329,9 +360,9 @@ void HashTable::runTests () {
     std::cout << "\tSample size percent: " << int(dataPercentage) << std::endl;
     std::cout << std::endl;
 
-    std::string algs[4] = {"simple", "elf", "sum", "multiplication"};
+    std::string algs[5] = {"simple", "elf", "sum", "multiplication", "crypto"};
     Result best, rtn;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         rtn = testHash(algs[i]);
         if (i == 0 || rtn.overallScore > best.overallScore) {
             best = rtn;
